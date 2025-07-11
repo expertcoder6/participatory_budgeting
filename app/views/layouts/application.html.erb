@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ParticipatoryBudgeting</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <nav style="background-color: #333; color: white; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <a href="/" style="color: white; text-decoration: none; font-weight: bold;">Participatory Budgeting</a>
+      </div>
+      <div>
+        <% if user_signed_in? %>
+          <span style="margin-right: 10px;">Welcome, <%= current_user.name %> (<%= current_user.role %>)</span>
+          <%= button_to "Logout", destroy_user_session_path, method: :delete, form: { style: "display: inline;" }, class: "logout-button", style: "background: none; border: none; color: white; cursor: pointer; text-decoration: underline;" %>
+        <% else %>
+          <%= link_to 'Sign Up', new_user_registration_path, style: "color: white; margin-right: 10px; text-decoration: underline;" %>
+          <%= link_to 'Login', new_user_session_path, style: "color: white; text-decoration: underline;" %>
+        <% end %>
+      </div>
+    </nav>
+    <% flash.each do |key, message| %>
+      <div class="flash-message <%= key %>" style="padding: 10px; margin: 10px; border-radius: 5px;
+                  <% if key == 'notice' %>
+                    background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;
+                  <% elsif key == 'alert' %>
+                    background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
+                  <% else %>
+                    background-color: #e2e3e5; color: #383d41; border: 1px solid #d6d8db;
+                  <% end %>">
+        <p><strong><%= key.capitalize %>:</strong> <%= message %></p>
+      </div>
+    <% end %>
+    <!-- Main Content -->
+    <main style="padding: 20px;">
+      <%= yield %>
+    </main>
+
+    <script>
+      setTimeout(function () {
+        const flashMessages = document.querySelectorAll('.flash-message');
+        flashMessages.forEach(el => el.style.display = 'none');
+      }, 3000); // Hide after 5 seconds
+    </script>
+  </body>
+</html>

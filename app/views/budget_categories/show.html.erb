@@ -1,0 +1,28 @@
+<% current_phase = VotingPhase.find_by("start_date <= ? AND end_date >= ?", Time.current, Time.current) %>
+
+<% @budget_category.budget_proposals.each do |proposal| %>
+  <div class="bg-white shadow-md p-4 rounded mb-4">
+    <h4 class="text-lg font-bold"><%= proposal.title %> - ₹<%= proposal.amount %></h4>
+
+    <% if proposal.impact_metric.present? %>
+      <p><strong>Impact:</strong></p>
+      <ul>
+        <li><strong>Estimated Beneficiaries:</strong> <%= proposal.impact_metric.estimated_beneficiaries %></li>
+        <li><strong>Timeline:</strong> <%= proposal.impact_metric.timeline %></li>
+        <li><strong>Sustainability Score:</strong> <%= proposal.impact_metric.sustainability_score %></li>
+      </ul>
+    <% end %>
+
+    <% if current_phase.present? %>
+      <%= form_with model: Vote.new, url: votes_path, method: :post, local: true do |f| %>
+        <%= f.hidden_field :budget_proposal_id, value: proposal.id %>
+        <%= f.hidden_field :voting_phase_id, value: current_phase.id %>
+        <%= f.label :amount, "Vote Amount (₹):" %>
+        <%= f.number_field :amount, class: "border px-2 py-1 rounded" %>
+        <%= f.submit "Vote", class: "bg-blue-500 text-white px-3 py-1 rounded ml-2 hover:bg-blue-600" %>
+      <% end %>
+    <% else %>
+      <p class="text-red-600">Voting is currently closed.</p>
+    <% end %>
+  </div>
+<% end %>

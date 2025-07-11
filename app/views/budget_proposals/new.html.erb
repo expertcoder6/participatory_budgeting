@@ -1,0 +1,24 @@
+<%= form_with model: @budget_proposal, local: true do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+
+  <%= f.label :amount %>
+  <%= f.number_field :amount %>
+
+  <%= f.label :budget_category_id %>
+  <%= f.collection_select :budget_category_id, BudgetCategory.all, :id, :name %>
+
+  <%= f.fields_for :impact_metric do |impact_f| %>
+    <h3>Impact Assessment</h3>
+    <%= impact_f.label :estimated_beneficiaries %>
+    <%= impact_f.number_field :estimated_beneficiaries %>
+
+    <%= impact_f.label :timeline %>
+    <%= impact_f.text_field :timeline %>
+
+    <%= impact_f.label :sustainability_score %>
+    <%= impact_f.number_field :sustainability_score, in: 1..10 %>
+  <% end %>
+
+  <%= f.submit "Submit Proposal" %>
+<% end %>

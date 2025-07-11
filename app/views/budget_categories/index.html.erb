@@ -1,0 +1,31 @@
+<h2 class="text-4xl font-bold mb-8 text-center text-gray-800">Budget Categories</h2>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <% @categories.each do |category| %>
+    <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl transition duration-300">
+      <h3 class="text-2xl font-semibold text-blue-700 mb-3"><%= category.name %></h3>
+
+      <div class="mb-2 text-lg text-gray-700">
+        <span class="font-medium">Spending Limit:</span>
+        <span><%= category.spending_limit_percentage %>%</span>
+      </div>
+
+      <div class="mb-4 text-lg text-gray-700">
+        <span class="font-medium">Utilized:</span>
+        <span class="<%= category.utilization_percentage > category.spending_limit_percentage ? 'text-red-600 font-bold' : 'text-green-600 font-bold' %>">
+          <%= category.utilization_percentage %>%
+        </span>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-200 rounded-full h-3 mt-2">
+          <div class="h-3 rounded-full transition-all duration-500"
+               style="width: <%= [category.utilization_percentage, 100].min %>%; background-color: <%= category.utilization_percentage > category.spending_limit_percentage ? '#DC2626' : '#2563EB' %>;">
+          </div>
+        </div>
+      </div>
+
+      <%= link_to "View Proposals", budget_category_path(category),
+          class: "inline-block mt-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold py-2 px-5 rounded-lg shadow transition duration-200" %>
+    </div>
+  <% end %>
+</div>

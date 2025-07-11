@@ -1,0 +1,17 @@
+<h2>Voting Phase: <%= @voting_phase.name %></h2>
+
+<%= form_with model: @vote, local: true do |f| %>
+  <%= f.hidden_field :voting_phase_id, value: @voting_phase.id %>
+
+  <% @budget_proposals.each do |proposal| %>
+    <div>
+      <%= f.radio_button :budget_proposal_id, proposal.id %>
+      <%= proposal.title %> (₹<%= proposal.amount %>)
+    </div>
+  <% end %>
+
+  <%= f.label :amount, "Enter Amount to Vote" %>
+  <%= f.number_field :amount, step: 1, required: true %>
+
+  <%= f.submit "Vote" %>
+<% end %>

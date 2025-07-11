@@ -10,11 +10,9 @@ User.delete_all
 Budget.delete_all
 
 # Create Admin
-admin = User.create!(
-  name: "Admin",
+admin = AdminUser.create!(
   email: "admin@example.com",
-  password: "password",
-  role: "admin"
+  password: "password"
 )
 puts "Admin created"
 

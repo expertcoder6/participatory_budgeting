@@ -9,8 +9,8 @@ ActiveAdmin.register VotingPhase do
     column :name
     column :start_date
     column :end_date
-    f.input :voting_rule, as: :select, collection: ["single_vote", "multi_vote"]
-    f.input :status, as: :select, collection: ["upcoming", "active", "ended"]
+    column :voting_rule, as: :select, collection: ["single_vote", "multi_vote"]
+    column :status, as: :select, collection: ["upcoming", "active", "ended"]
     column("Total Votes") { |phase| phase.votes.count }
     column("Total Amount Allocated") { |phase| number_to_currency(phase.votes.sum(:amount)) }
     actions

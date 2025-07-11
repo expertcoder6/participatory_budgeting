@@ -179,4 +179,3 @@ Default admin:
 
 Email: admin@example.com
 
-Password: password
